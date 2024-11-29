@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
+import 'package:paisasplit/money%20split/home_screen.dart';
 
 class user_screen extends StatelessWidget {
   const user_screen({super.key});
@@ -165,7 +166,9 @@ class user_screen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.history, size: _width * 0.1),
+                    InkWell(child: Icon(Icons.history,size: _width*0.1,),onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => homepage(),));
+                    },),
                     InkWell(
                       child: FittedBox(
                         child: Icon(

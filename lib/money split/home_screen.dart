@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
+import 'package:paisasplit/money%20split/user_screen.dart';
 
 import 'Hive data/Entry.dart';
 
@@ -73,6 +74,16 @@ class _homepageState extends State<homepage> {
     var _width=MediaQuery.of(context).size.width;
 
 
+
+
+    double calculate_total(List<Entry> s){
+        double total=0;
+        for(int i=0;i<s.length;i++){
+          total+=s[i].amount;
+        }
+
+        return total;
+    }
 
 
 
@@ -252,7 +263,7 @@ popup_add(){
                                      color: Colors.white,fontSize: _width*0.05
                                    ),),
                                    FittedBox(
-                                     child: Text('\$80',style: TextStyle(
+                                     child: Text('\$${calculate_total(owe_me)}',style: TextStyle(
                                          color: Colors.white,fontSize: _width*0.1
                                      ),),
                                    ),
@@ -278,7 +289,7 @@ popup_add(){
                                        color: Colors.white,fontSize: _width*0.05
                                    ),),
                                    FittedBox(
-                                     child: Text('\$240',style: TextStyle(
+                                     child: Text('\$${calculate_total(i_owe)}',style: TextStyle(
                                          color: Colors.white,fontSize: _width*0.1
                                      ),),
                                    ),
@@ -306,7 +317,7 @@ popup_add(){
 
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                       child:ListView.builder(itemBuilder:  (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -347,7 +358,7 @@ popup_add(){
 
                   ),
                   Expanded(
-                      flex: 1,
+                      flex: 2,
                       child:ListView.builder(itemBuilder:  (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -389,7 +400,9 @@ popup_add(){
                     InkWell(child: FittedBox(child: Icon(Icons.add_circle_rounded,size: _width*0.2,color: Colors.green,)),
                     onTap: (){popup_add();},),
 
-                    Icon(Icons.person,size: _width*0.1,),
+                    InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => user_screen(),));
+                    },),
 
 
                   ],
