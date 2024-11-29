@@ -9,6 +9,8 @@ import 'package:hive/hive.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:paisasplit/money%20split/user_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:swipeable_tile/swipeable_tile.dart';
 
 import 'Hive data/Entry.dart';
 
@@ -20,52 +22,19 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-
-
-
   var name = TextEditingController();
   var amount = TextEditingController();
 
-  List<Entry>  owe_me =[];
-   List<Entry> i_owe = [];
-
-  @override
-  getHiveData() async {
-
-    var box = await Hive.openBox('data');
-    // Check if the data exists in the box
-    String? oweMeJson = box.get('oweMe');
-    String? iOweJson = box.get('iOwe');
-
-    if (oweMeJson != null) {
-      List<dynamic> oweMeList = jsonDecode(oweMeJson);
-      owe_me = oweMeList.map((e) => Entry.fromJson(e)).toList();
-    }
-
-    if (iOweJson != null) {
-      List<dynamic> iOweList = jsonDecode(iOweJson);
-      i_owe = iOweList.map((e) => Entry.fromJson(e)).toList();
-    }
-
-    setState(() {});
-  }
 
 
-  saveToHive() async {
-    var box = await Hive.openBox('data');
-    Entry temp = Entry(name.text.trim(), double.parse(amount.text.trim()), DateTime.now());
-    owe_me.add(temp);
-    String oweMeJson = jsonEncode(owe_me.map((e) => e.toJson()).toList());
-    String iOweJson = jsonEncode(i_owe.map((e) => e.toJson()).toList());
 
-    await box.put('oweMe', oweMeJson);
-    await box.put('iOwe', iOweJson);
-  }
 
   @override
   void initState() {
     super.initState();
-    getHiveData();
+    Future.microtask(() {
+      Provider.of<data_provider>(context, listen: false).getHiveData();
+    });
   }
 
 
@@ -77,148 +46,11 @@ class _homepageState extends State<homepage> {
 
 
 
-    double calculate_total(List<Entry> s){
-        double total=0;
-        for(int i=0;i<s.length;i++){
-          total+=s[i].amount;
-        }
-
-        return total;
-    }
 
 
 
-popup_add(){
-      return showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: BlurryContainer(
-                height: _height*0.35,
-              width: _width*0.6,
-              color: Colors.black.withOpacity(0.1),
-              child:Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      style: TextStyle(color: Colors.white.withOpacity(0.7)),
-                      cursorColor: Colors.white,
-                      controller: name,
-                      decoration: InputDecoration(
-                        hintText:"Name",
-                        contentPadding: EdgeInsets.all(10),
-                        hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2
-                          )
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 1
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      controller: amount,
-                      style: TextStyle(color: Colors.white.withOpacity(0.7)),
-                      decoration: InputDecoration(
-                        hintText:"Amount",
-                        contentPadding: EdgeInsets.all(10),
-                        hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2
-                            )
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 1
-                            )
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: _height*0.09,
-                          width: _width*0.18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            color: Colors.red.withOpacity(0.8)
-                          ),
-                          child: Center(
-                            child: Text("I Owe",style: TextStyle(
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if(name.text.isNotEmpty && amount.text.isNotEmpty ){
-                              saveToHive();
-                              Navigator.pop(context);
-                            }
-                            else{
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter something")));
-                            }
 
-                          },
-                          child: Container(
-                            height: _height*0.09,
-                            width: _width*0.13,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.yellow.withOpacity(0.8)
-                            ),
-                            child: Center(
-                              child: Text("Cancel",style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                              ),),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: _height*0.09,
-                          width: _width*0.18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.green.withOpacity(0.8)
-                          ),
-                          child: Center(
-                            child: Text("Owe me",style: TextStyle(
-                              fontWeight: FontWeight.bold
-                            ),),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ),
-          );
-        },
-      );
-    }
+
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -254,57 +86,72 @@ popup_add(){
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                        children: [
-                         Container(
-                           width: _width*0.4,
-                           height: _width*0.4,
-                           decoration: BoxDecoration(
-                             color: Colors.redAccent,
-                              shape: BoxShape.circle
-                           ),
-                           child: Center(
-                             child: Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
-                                 children: [
-                                   Text("YOU OWE",style: TextStyle(
-                                     color: Colors.white,fontSize: _width*0.05
-                                   ),),
-                                   FittedBox(
-                                     child: Text('\$${calculate_total(owe_me)}',style: TextStyle(
-                                         color: Colors.white,fontSize: _width*0.1
-                                     ),),
-                                   ),
-                                 ],
+                         InkWell(
+                           onTap: (){
+                             popup_add(context, _height, _width, name, amount,0);
+                           },
+                           child: Consumer<data_provider>(builder: (context, value, child) {
+                             return Container(
+                               width: _width*0.4,
+                               height: _width*0.4,
+                               decoration: BoxDecoration(
+                                   color: Colors.redAccent,
+                                   shape: BoxShape.circle
                                ),
-                             ),
-                           ),
+                               child: Center(
+                                 child: Padding(
+                                   padding: const EdgeInsets.all(8.0),
+                                   child: Column(
+                                     mainAxisAlignment: MainAxisAlignment.center,
+                                     children: [
+                                       Text("YOU OWE",style: TextStyle(
+                                           color: Colors.white,fontSize: _width*0.05
+                                       ),),
+                                       FittedBox(
+                                         child: Text('\$${value.calculate_total(value.i_give)}',style: TextStyle(
+                                             color: Colors.white,fontSize: _width*0.1
+                                         ),),
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               ),
+                             );
+                           },),
                          ),
-                         Container(
-                           width: _width*0.4,
-                           height: _width*0.4,
-                           decoration: BoxDecoration(
-                               color: Colors.green,
-                               shape: BoxShape.circle
-                           ),
-                           child: Center(
-                             child: Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
-                                 children: [
-                                   Text("OWE YOU",style: TextStyle(
-                                       color: Colors.white,fontSize: _width*0.05
-                                   ),),
-                                   FittedBox(
-                                     child: Text('\$${calculate_total(i_owe)}',style: TextStyle(
-                                         color: Colors.white,fontSize: _width*0.1
-                                     ),),
-                                   ),
-                                 ],
+                         InkWell(
+                           onTap: (){
+                             popup_add(context, _height, _width, name, amount,1);
+                           },
+                           child: Consumer<data_provider>(builder: (context, value, child) {
+                             return Container(
+                               width: _width*0.4,
+                               height: _width*0.4,
+                               decoration: BoxDecoration(
+                                   color: Colors.green,
+                                   shape: BoxShape.circle
                                ),
-                             ),
-                           ),
+                               child: Center(
+                                 child: Padding(
+                                   padding: const EdgeInsets.all(8.0),
+                                   child: Column(
+                                     mainAxisAlignment: MainAxisAlignment.center,
+                                     children: [
+                                       Text("OWE YOU",style: TextStyle(
+                                           color: Colors.white,fontSize: _width*0.05
+                                       ),),
+                                       FittedBox(
+                                         child: Text('\$${value.calculate_total(value.i_take)}',style: TextStyle(
+                                             color: Colors.white,fontSize: _width*0.1
+                                         ),),
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               ),
+                             );
+
+                           },),
                          ),
                        ],
                     ),
@@ -327,30 +174,32 @@ popup_add(){
                   ),
                   Expanded(
                     flex: 2,
-                      child:ListView.builder(itemBuilder:  (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.redAccent,
-                        ),
-                        title: Text(owe_me[index].name,style: TextStyle(
-                          fontSize: _width*0.05,
+                      child:Consumer<data_provider>(builder: (context, value, child) {
+                        return ListView.builder(itemBuilder:  (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.redAccent,
+                              ),
+                              title: Text(value.i_give[index].name,style: TextStyle(
+                                fontSize: _width*0.05,
 
-                        ),),
-                        trailing: FittedBox(
-                          child: Text("\$${owe_me[index].amount}",style: TextStyle(
-                            fontSize: _width*0.09,
-                              fontFamily: "splash",
-                            color: Colors.redAccent
+                              ),),
+                              trailing: FittedBox(
+                                child: Text("\$${value.i_give[index].amount}",style: TextStyle(
+                                    fontSize: _width*0.09,
+                                    fontFamily: "splash",
+                                    color: Colors.redAccent
 
-                          ),),
-                        ),
-                      ),
+                                ),),
+                              ),
+                            ),
 
-                    );
-                  },itemCount: owe_me.length,) ),
+                          );
+                        },itemCount: value.i_give.length??0,);
+                      },) ),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text('People who owe you',style: TextStyle(
@@ -369,30 +218,54 @@ popup_add(){
                   ),
                   Expanded(
                       flex: 2,
-                      child:ListView.builder(itemBuilder:  (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.red,
-                        ),
-                        title: Text(i_owe[index].name,style: TextStyle(
-                          fontSize: _width*0.05,
+                      child:Consumer<data_provider>(builder: (context, value, child) {
+                        return ListView.builder(itemBuilder:  (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SwipeableTile(
+                              backgroundBuilder: (context, direction, progress) {
+                                return Container();
+                              },
+                              color: Colors.redAccent,
+                              swipeThreshold: 0.3,
+                              isElevated: false,
+                              direction: SwipeDirection.horizontal,
+                              onSwiped: (direction) {
+                                if (direction == SwipeDirection.endToStart) {
+                                  value.deleteEntry(value.i_take[index], 1);
 
-                        ),),
-                        trailing: FittedBox(
-                          child: Text("\$${i_owe[index].amount}",style: TextStyle(
-                            fontSize: _width*0.09,
-                            fontFamily: "splash",
-                            color: Colors.green
+                                } else if (direction == SwipeDirection.startToEnd) {
+                                  value.deleteEntry(value.i_take[index], 1);
+                                  //add remove in upper part
+                                }
 
-                          ),),
-                        ),
-                      ),
+                              },
 
-                    );
-                  },itemCount: i_owe.length,) ),
+
+                              key: UniqueKey(),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.red,
+                                ),
+                                title: Text(value.i_take[index].name,style: TextStyle(
+                                  fontSize: _width*0.05,
+                              
+                                ),),
+                                trailing: FittedBox(
+                                  child: Text("\$${value.i_take[index].amount}",style: TextStyle(
+                                      fontSize: _width*0.09,
+                                      fontFamily: "splash",
+                                      color: Colors.green
+                              
+                                  ),),
+                                ),
+                              ),
+                            ),
+
+                          );
+                        },itemCount: value.i_take.length??0,);
+                      },) ),
                 ],
               )),
               Container(
