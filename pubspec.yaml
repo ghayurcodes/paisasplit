@@ -1,0 +1,50 @@
+name: paisasplit
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+  provider: ^6.1.2
+  blurrycontainer: ^2.1.0
+  google_nav_bar: ^5.0.6
+  line_icons: ^2.0.3
+  carousel_slider: ^5.0.0
+  http: ^1.2.2
+  auto_size_text: ^3.0.0
+  swipeable_tile: ^2.0.1
+  lottie: ^3.1.2
+  loading_indicator: ^3.1.1
+  hive:
+  hive_flutter:
+  intl: ^0.18.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  hive_generator:
+  build_runner:
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: splash
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf
+    - family: Meme
+      fonts:
+        - asset: assets/fonts/FacultyGlyphic-Regular.ttf
