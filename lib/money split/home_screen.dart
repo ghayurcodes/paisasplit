@@ -26,6 +26,25 @@ List<Entry> owe_me=[];
 
 List<Entry> i_owe=[];
 
+@override
+void initState() {
+  super.initState();
+
+  // Retrieve the list from Hive with a fallback to an empty list if nothing is stored yet
+  var temp = _mybox.get('entries', defaultValue: <Entry>[]);
+
+  // Convert it to a List<Entry> if necessary
+  if (temp != null) {
+    owe_me = List<Entry>.from(temp.map((item) => item as Entry));
+  } else {
+    owe_me = []; // Fallback to an empty list if no data is found
+  }
+}
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     var _height=MediaQuery.of(context).size.height;
@@ -37,6 +56,9 @@ void store(){
   _mybox.put("entries", owe_me);
   print(owe_me.length);
   owe_me=_mybox.get("entries")!;
+  setState(() {
+
+  });
   // print(owe_me[0].name);
 
 }
@@ -279,12 +301,12 @@ popup_add(){
                           radius: 25,
                           backgroundColor: Colors.redAccent,
                         ),
-                        title: Text("Alex Trump",style: TextStyle(
+                        title: Text(owe_me[index].name,style: TextStyle(
                           fontSize: _width*0.05,
 
                         ),),
                         trailing: FittedBox(
-                          child: Text("\$30",style: TextStyle(
+                          child: Text("\$${owe_me[index].amount}",style: TextStyle(
                             fontSize: _width*0.09,
                               fontFamily: "splash",
                             color: Colors.redAccent
@@ -320,12 +342,12 @@ popup_add(){
                           radius: 25,
                           backgroundColor: Colors.red,
                         ),
-                        title: Text("Chris porter",style: TextStyle(
+                        title: Text(i_owe[index].name,style: TextStyle(
                           fontSize: _width*0.05,
 
                         ),),
                         trailing: FittedBox(
-                          child: Text("\$30",style: TextStyle(
+                          child: Text("\$${i_owe[index].amount}",style: TextStyle(
                             fontSize: _width*0.09,
                             fontFamily: "splash",
                             color: Colors.green
@@ -335,7 +357,7 @@ popup_add(){
                       ),
 
                     );
-                  },itemCount: 1,) ),
+                  },itemCount: i_owe.length,) ),
                 ],
               )),
               Container(
