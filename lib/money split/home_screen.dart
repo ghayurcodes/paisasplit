@@ -224,7 +224,7 @@ popup_add(){
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         forceMaterialTransparency: true,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
           title: FittedBox(child: Text("Money Split",style: TextStyle(
             fontSize: _width*0.09,
             fontFamily: "Meme",
@@ -235,7 +235,14 @@ popup_add(){
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
-        // color: Colors.black.withOpacity(0.1),
+        color: Colors.black.withOpacity(0.1),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //       image: AssetImage('assets/images/bg_blue.jpg'),
+        //       fit: BoxFit.fill,
+        //       opacity: 0.6
+        //     )
+        // ),
         child: Center(
           child: Column(
             children: [

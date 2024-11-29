@@ -1,11 +1,47 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
 
-class user_screen extends StatelessWidget {
+class user_screen extends StatefulWidget {
   const user_screen({super.key});
+
+  @override
+  State<user_screen> createState() => _user_screenState();
+}
+
+class _user_screenState extends State<user_screen> {
+  final Box pfp = Hive.box('data'); // Hive box instance
+  File? _imageFile;
+  @override
+  void initState() {
+    super.initState();
+    // Load saved image if available
+    final imagePath = pfp.get('profileImagePath');
+    if (imagePath != null) {
+      _imageFile = File(imagePath);
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final imageFile = File(pickedFile.path);
+      setState(() {
+        _imageFile = imageFile;
+      });
+
+      // Save the image path to Hive
+      pfp.put('profileImagePath', pickedFile.path);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +84,19 @@ class user_screen extends StatelessWidget {
                                 color: Colors.black,
                               ),
                               padding: EdgeInsets.all(3),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.redAccent,
+                              child: _imageFile==null?InkWell(
+                                onTap: () {
+                                  _pickImage();
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius:_width*0.15,
+                                  child: Icon(Icons.add_circle_rounded,size: 50,color: Colors.black,),
+                                ),
+                              ):CircleAvatar(
                                 radius:_width*0.15,
+                                backgroundImage: FileImage(_imageFile!) as ImageProvider,
+
                               ),
                             ),
                             Expanded(

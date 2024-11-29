@@ -27,6 +27,8 @@ dependencies:
   intl: ^0.18.0
   shared_preferences: ^2.0.15
   json_annotation: ^4.8.0
+  image_picker: ^0.8.7
+  flutter_tesseract_ocr: ^0.4.28
 
 
 dev_dependencies:
