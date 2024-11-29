@@ -22,17 +22,15 @@ class _homepageState extends State<homepage> {
 
 
   var name = TextEditingController();
-  var time;
   var amount = TextEditingController();
 
   List<Entry>  owe_me =[];
-  // entryBox.get('entries')!.map((e)=> e as Entry).toList();
    List<Entry> i_owe = [];
 
   @override
   getHiveData() async {
-    var box = await Hive.openBox('dataBox');
 
+    var box = await Hive.openBox('data');
     // Check if the data exists in the box
     String? oweMeJson = box.get('oweMe');
     String? iOweJson = box.get('iOwe');
@@ -50,9 +48,9 @@ class _homepageState extends State<homepage> {
     setState(() {});
   }
 
-// Save data to Hive
+
   saveToHive() async {
-    var box = await Hive.openBox('dataBox');
+    var box = await Hive.openBox('data');
     Entry temp = Entry(name.text.trim(), double.parse(amount.text.trim()), DateTime.now());
     owe_me.add(temp);
     String oweMeJson = jsonEncode(owe_me.map((e) => e.toJson()).toList());
@@ -65,10 +63,8 @@ class _homepageState extends State<homepage> {
   @override
   void initState() {
     super.initState();
-    getHiveData(); // Load data from Hive
+    getHiveData();
   }
-
-
 
 
   @override

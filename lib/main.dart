@@ -13,11 +13,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
-
-   // Hive.registerAdapter(EntryAdapter());
-  // entryBox = await Hive.openBox('MoneySplit');
-
-
   runApp(MyApp());
 }
 

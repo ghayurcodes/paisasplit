@@ -10,5 +10,5 @@ class data_provider with ChangeNotifier{
 
 
 
-late Box entryBox;
+
 
