@@ -5,40 +5,47 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
-
 import 'Hive data/entry.dart';
 
 class homepage extends StatefulWidget {
-   homepage({super.key});
+  homepage({super.key});
 
   @override
   State<homepage> createState() => _homepageState();
 }
 
 class _homepageState extends State<homepage> {
-final _mybox=Hive.box<List<Entry>>('MoneySplit');
+  // Declare the Hive box for storing entries
+  late Box<List<Entry>> _mybox;
 
-var name=TextEditingController();
-var time;
-var amount=TextEditingController();
+  var name = TextEditingController();
+  var time;
+  var amount = TextEditingController();
 
-List<Entry> owe_me=[];
+  List<Entry> owe_me = [];
+  List<Entry> i_owe = [];
 
-List<Entry> i_owe=[];
-
-void initState() {
-  super.initState();
-  if (_mybox.isNotEmpty) {
-    var temp = _mybox.get('entries') as List<dynamic>;
-
-    // Convert the List<dynamic> to List<Entry>
-    List<Entry> entriesList = temp.map((item) => Entry.fromMap(item)).toList();
-
-    // Now, entriesList is of type List<Entry>
-    print(entriesList);
+  @override
+  void initState() {
+    super.initState();
+    _initializeHive();
   }
-}
 
+  // Function to initialize Hive and open the box
+  Future<void> _initializeHive() async {
+    // Open the Hive box for storing entries (make sure the box is open before accessing it)
+    _mybox = await Hive.openBox<List<Entry>>('MoneySplit');
+
+    // If there are entries already saved, retrieve them
+    if (_mybox.isNotEmpty) {
+      var temp = _mybox.get('entries') as List<Entry>;
+
+      // Now, temp is a List<Entry>
+      owe_me = temp;
+      print(owe_me);
+      setState(() {});
+    }
+  }
 
 
 
