@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
+import 'package:paisasplit/money%20split/user_screen.dart';
+
+import 'home_screen.dart';
 
 class add_screen extends StatelessWidget {
   const add_screen({super.key});
@@ -50,13 +53,15 @@ class add_screen extends StatelessWidget {
                 width: _width,
                 height: _height * 0.1,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.grey.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.history, size: _width * 0.1),
+                    InkWell(child: Icon(Icons.history,size: _width*0.1,),onTap: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => homepage(),));
+                    },),
                     InkWell(
                       child: FittedBox(
                         child: Icon(
@@ -67,7 +72,10 @@ class add_screen extends StatelessWidget {
                       ),
                       onTap: () {},
                     ),
-                    Icon(Icons.person, size: _width * 0.1),
+                    InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => user_screen(),));
+                    },),
+
                   ],
                 ),
               )

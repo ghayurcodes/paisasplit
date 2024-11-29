@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:paisasplit/money%20split/user_screen.dart';
 
@@ -234,7 +235,7 @@ popup_add(){
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
-        color: Colors.black.withOpacity(0.1),
+        // color: Colors.black.withOpacity(0.1),
         child: Center(
           child: Column(
             children: [
@@ -314,6 +315,7 @@ popup_add(){
                     indent: 10,
                     color: Colors.black,
                     thickness: 1,
+                    height: 1,
 
                   ),
                   Expanded(
@@ -355,6 +357,7 @@ popup_add(){
                     indent: 10,
                     color: Colors.black,
                     thickness: 1,
+                    height: 1,
 
                   ),
                   Expanded(
@@ -390,7 +393,7 @@ popup_add(){
                 width: _width,
                 height: _height*0.1,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.grey.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(25)
                 ),
                 child: Row(
@@ -398,10 +401,12 @@ popup_add(){
                   children: [
                     Icon(Icons.history,size: _width*0.1,),
                     InkWell(child: FittedBox(child: Icon(Icons.add_circle_rounded,size: _width*0.2,color: Colors.green,)),
-                    onTap: (){popup_add();},),
+                    onTap: (){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => add_screen(),));
+                    },),
 
                     InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => user_screen(),));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => user_screen(),));
                     },),
 
 
