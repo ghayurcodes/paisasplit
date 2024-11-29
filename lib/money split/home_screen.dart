@@ -19,7 +19,7 @@ class _homepageState extends State<homepage> {
 final _mybox=Hive.box<List<Entry>>('MoneySplit');
 
 var name=TextEditingController();
-
+var time;
 var amount=TextEditingController();
 
 List<Entry> owe_me=[];
@@ -36,7 +36,8 @@ void store(){
   owe_me.add(temp);
   _mybox.put("entries", owe_me);
   print(owe_me.length);
-  print(_mybox.get("entries"));
+  owe_me=_mybox.get("entries")!;
+  // print(owe_me[0].name);
 
 }
 popup_add(){
@@ -189,7 +190,6 @@ popup_add(){
         color: Colors.black.withOpacity(0.1),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,7 +294,7 @@ popup_add(){
                       ),
 
                     );
-                  },itemCount: 5,) ),
+                  },itemCount: owe_me.length,) ),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text('People who owe you',style: TextStyle(
