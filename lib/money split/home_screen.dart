@@ -26,20 +26,19 @@ List<Entry> owe_me=[];
 
 List<Entry> i_owe=[];
 
-@override
 void initState() {
   super.initState();
+  if (_mybox.isNotEmpty) {
+    var temp = _mybox.get('entries') as List<dynamic>;
 
-  // Retrieve the list from Hive with a fallback to an empty list if nothing is stored yet
-  var temp = _mybox.get('entries', defaultValue: <Entry>[]);
+    // Convert the List<dynamic> to List<Entry>
+    List<Entry> entriesList = temp.map((item) => Entry.fromMap(item)).toList();
 
-  // Convert it to a List<Entry> if necessary
-  if (temp != null) {
-    owe_me = List<Entry>.from(temp.map((item) => item as Entry));
-  } else {
-    owe_me = []; // Fallback to an empty list if no data is found
+    // Now, entriesList is of type List<Entry>
+    print(entriesList);
   }
 }
+
 
 
 
