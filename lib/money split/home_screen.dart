@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 
-import 'Hive data/entry.dart';
+import 'Hive data/Entry.dart';
 
 class homepage extends StatefulWidget {
   homepage({super.key});
@@ -15,38 +18,55 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-  // Declare the Hive box for storing entries
-  late Box<List<Entry>> _mybox;
+
+
 
   var name = TextEditingController();
   var time;
   var amount = TextEditingController();
 
-  List<Entry> owe_me = [];
-  List<Entry> i_owe = [];
+  List<Entry>  owe_me =[];
+  // entryBox.get('entries')!.map((e)=> e as Entry).toList();
+   List<Entry> i_owe = [];
+
+  @override
+  getHiveData() async {
+    var box = await Hive.openBox('dataBox');
+
+    // Check if the data exists in the box
+    String? oweMeJson = box.get('oweMe');
+    String? iOweJson = box.get('iOwe');
+
+    if (oweMeJson != null) {
+      List<dynamic> oweMeList = jsonDecode(oweMeJson);
+      owe_me = oweMeList.map((e) => Entry.fromJson(e)).toList();
+    }
+
+    if (iOweJson != null) {
+      List<dynamic> iOweList = jsonDecode(iOweJson);
+      i_owe = iOweList.map((e) => Entry.fromJson(e)).toList();
+    }
+
+    setState(() {});
+  }
+
+// Save data to Hive
+  saveToHive() async {
+    var box = await Hive.openBox('dataBox');
+    Entry temp = Entry(name.text.trim(), double.parse(amount.text.trim()), DateTime.now());
+    owe_me.add(temp);
+    String oweMeJson = jsonEncode(owe_me.map((e) => e.toJson()).toList());
+    String iOweJson = jsonEncode(i_owe.map((e) => e.toJson()).toList());
+
+    await box.put('oweMe', oweMeJson);
+    await box.put('iOwe', iOweJson);
+  }
 
   @override
   void initState() {
     super.initState();
-    _initializeHive();
+    getHiveData(); // Load data from Hive
   }
-
-  // Function to initialize Hive and open the box
-  Future<void> _initializeHive() async {
-    // Open the Hive box for storing entries (make sure the box is open before accessing it)
-    _mybox = await Hive.openBox<List<Entry>>('MoneySplit');
-
-    // If there are entries already saved, retrieve them
-    if (_mybox.isNotEmpty) {
-      var temp = _mybox.get('entries') as List<Entry>;
-
-      // Now, temp is a List<Entry>
-      owe_me = temp;
-      print(owe_me);
-      setState(() {});
-    }
-  }
-
 
 
 
@@ -56,18 +76,10 @@ class _homepageState extends State<homepage> {
     var _height=MediaQuery.of(context).size.height;
     var _width=MediaQuery.of(context).size.width;
 
-void store(){
-  Entry temp=new Entry(name.text.trim(),double.parse(amount.text.trim()),DateTime.now());
-  owe_me.add(temp);
-  _mybox.put("entries", owe_me);
-  print(owe_me.length);
-  owe_me=_mybox.get("entries")!;
-  setState(() {
 
-  });
-  // print(owe_me[0].name);
 
-}
+
+
 popup_add(){
       return showDialog(
         context: context,
@@ -154,7 +166,7 @@ popup_add(){
                         GestureDetector(
                           onTap: () {
                             if(name.text.isNotEmpty && amount.text.isNotEmpty ){
-                              store();
+                              saveToHive();
                               Navigator.pop(context);
                             }
                             else{

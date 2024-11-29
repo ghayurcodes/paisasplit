@@ -7,18 +7,17 @@ import 'package:paisasplit/money%20split/home_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'money split/Hive data/entry.dart';
+import 'money split/Hive data/Entry.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
 
-   Hive.registerAdapter(EntryAdapter());
+   // Hive.registerAdapter(EntryAdapter());
+  // entryBox = await Hive.openBox('MoneySplit');
 
-  // Open the box only once, and keep it open throughout the app
-  var entryBox = await Hive.openBox<List<Entry>>('MoneySplit');
 
-  // Now run the app
   runApp(MyApp());
 }
 
