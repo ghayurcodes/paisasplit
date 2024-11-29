@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:paisasplit/money%20split/user_screen.dart';
 
 import 'home_screen.dart';
@@ -46,6 +47,9 @@ class add_screen extends StatelessWidget {
               Expanded(
                 child: Container(
                   color: Colors.green,
+                  child: Center(
+                    child: Lottie.asset("assets/gifs/iamge_add.json"),
+                  ),
                 )
               ),
               Container(
