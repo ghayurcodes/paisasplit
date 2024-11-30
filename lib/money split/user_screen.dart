@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
@@ -79,7 +80,7 @@ class _user_screenState extends State<user_screen> {
     var _width = MediaQuery.of(context).size.width;
     final previousMonth =
         DateTime(DateTime.now().year, DateTime.now().month - 1);
-    TextEditingController change_name = TextEditingController();
+    var valuee=Provider.of<data_provider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -99,7 +100,35 @@ class _user_screenState extends State<user_screen> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.more_vert_rounded),
+            child: InkWell(child: Icon(Icons.more_vert_rounded),
+            onTap: (){
+              showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  title: Center(child: Text("Group Members")),
+                  content: Container(
+                    width: 300,
+                     height: 200,
+                     decoration: BoxDecoration(
+                        color: Colors.grey,
+                       borderRadius: BorderRadius.circular(25),
+                     ),
+                    child: Center(
+                       child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         
+                         children: [
+                           Text("Syed Gahyur Hussain",style: stylee(),),
+                           Text("M.saad",style: stylee(),),
+                           Text("abdul Ahad",style: stylee(),),
+
+
+                         ],
+                       ),
+                    ),
+                  ),
+                );
+              },);
+            },),
           )
         ],
       ),
@@ -374,11 +403,7 @@ class _user_screenState extends State<user_screen> {
                         size: _width * 0.1,
                       ),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => homepage(),
-                            ));
+                        Navigator.pushReplacement(context, PageTransition(child: homepage(), type: PageTransitionType.leftToRight));
                       },
                     ),
                     InkWell(
@@ -390,11 +415,7 @@ class _user_screenState extends State<user_screen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => add_screen(),
-                            ));
+                        Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.leftToRight));
                       },
                     ),
                     Icon(Icons.person, size: _width * 0.1),

@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:paisasplit/money%20split/user_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,7 +120,7 @@ class add_screen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(child: Icon(Icons.history,size: _width*0.1,),onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => homepage(),));
+                      Navigator.pushReplacement(context, PageTransition(child: homepage(), type: PageTransitionType.leftToRight));
                     },),
                     InkWell(
                       child: FittedBox(
@@ -132,7 +133,7 @@ class add_screen extends StatelessWidget {
                       onTap: () {},
                     ),
                     InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => user_screen(),));
+                      Navigator.pushReplacement(context, PageTransition(child: user_screen(), type: PageTransitionType.rightToLeft));
                     },),
 
                   ],

@@ -229,7 +229,13 @@ class data_provider with ChangeNotifier{
 
 
 
+TextStyle stylee(){
+  return TextStyle(
+    fontSize: 20,
+    fontFamily: "splash"
+  );
 
+}
 
 
 

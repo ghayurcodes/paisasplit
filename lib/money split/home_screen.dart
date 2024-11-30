@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:paisasplit/money%20split/user_screen.dart';
@@ -42,14 +43,6 @@ class _homepageState extends State<homepage> {
   Widget build(BuildContext context) {
     var _height=MediaQuery.of(context).size.height;
     var _width=MediaQuery.of(context).size.width;
-
-
-
-
-
-
-
-
 
 
     return Scaffold(
@@ -307,11 +300,11 @@ class _homepageState extends State<homepage> {
                     Icon(Icons.history,size: _width*0.1,),
                     InkWell(child: FittedBox(child: Icon(Icons.add_circle_rounded,size: _width*0.2,color: Colors.green,)),
                     onTap: (){
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => add_screen(),));
+                      Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.rightToLeft));
                     },),
 
                     InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => user_screen(),));
+                      Navigator.pushReplacement(context, PageTransition(child: user_screen(), type: PageTransitionType.rightToLeft));
                     },),
 
 
