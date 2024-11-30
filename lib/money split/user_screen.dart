@@ -1,12 +1,14 @@
 import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
+import 'package:path_provider/path_provider.dart';
 
 class user_screen extends StatefulWidget {
   const user_screen({super.key});
@@ -18,13 +20,35 @@ class user_screen extends StatefulWidget {
 class _user_screenState extends State<user_screen> {
   final Box pfp = Hive.box('data'); // Hive box instance
   File? _imageFile;
+
   @override
   void initState() {
     super.initState();
     // Load saved image if available
-    final imagePath = pfp.get('profileImagePath');
-    if (imagePath != null) {
-      _imageFile = File(imagePath);
+    final savedImageData = pfp.get('profileImage');
+    if (savedImageData != null) {
+      // Convert base64 string back to File
+      _loadImageFromBase64(savedImageData);
+    }
+  }
+
+  Future<void> _loadImageFromBase64(String base64String) async {
+    try {
+      // Decode base64 string to bytes
+      var bytes = base64Decode(base64String);
+
+      // Create a temporary file to store the image
+      final tempDir = await getTemporaryDirectory();
+      final tempFile = File('${tempDir.path}/profile_image.png');
+
+      // Write bytes to file
+      await tempFile.writeAsBytes(bytes);
+
+      setState(() {
+        _imageFile = tempFile;
+      });
+    } catch (e) {
+      print('Error loading image: $e');
     }
   }
 
@@ -34,12 +58,17 @@ class _user_screenState extends State<user_screen> {
 
     if (pickedFile != null) {
       final imageFile = File(pickedFile.path);
+
+      // Read image file as bytes and convert to base64
+      List<int> imageBytes = await imageFile.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+
       setState(() {
         _imageFile = imageFile;
       });
 
-      // Save the image path to Hive
-      pfp.put('profileImagePath', pickedFile.path);
+      // Save the image as base64 encoded string in Hive
+      pfp.put('profileImage', base64Image);
     }
   }
 
@@ -48,7 +77,6 @@ class _user_screenState extends State<user_screen> {
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
     final previousMonth = DateTime(DateTime.now().year, DateTime.now().month - 1);
-
 
     return Scaffold(
       appBar: AppBar(
@@ -84,19 +112,24 @@ class _user_screenState extends State<user_screen> {
                                 color: Colors.black,
                               ),
                               padding: EdgeInsets.all(3),
-                              child: _imageFile==null?InkWell(
+                              child: _imageFile == null
+                                  ? InkWell(
                                 onTap: () {
                                   _pickImage();
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: Colors.white,
-                                  radius:_width*0.15,
-                                  child: Icon(Icons.add_circle_rounded,size: 50,color: Colors.black,),
+                                  radius: _width * 0.15,
+                                  child: Icon(
+                                    Icons.add_circle_rounded,
+                                    size: 50,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ):CircleAvatar(
-                                radius:_width*0.15,
+                              )
+                                  : CircleAvatar(
+                                radius: _width * 0.15,
                                 backgroundImage: FileImage(_imageFile!) as ImageProvider,
-
                               ),
                             ),
                             Expanded(
@@ -136,7 +169,7 @@ class _user_screenState extends State<user_screen> {
                       ),
                     ),
                     Divider(
-                       color: Colors.grey,height: 1,thickness: 2,
+                      color: Colors.grey,height: 1,thickness: 2,
                     ),
 
                     Expanded(
@@ -156,10 +189,10 @@ class _user_screenState extends State<user_screen> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(DateFormat('MMMM').format(DateTime.now()),style: TextStyle(
-                                        fontSize: _width*0.08,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black,
-                                      ),),
+                                          fontSize: _width*0.08,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),),
                                       ),
                                     ),
                                   ],

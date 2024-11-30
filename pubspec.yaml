@@ -29,6 +29,7 @@ dependencies:
   json_annotation: ^4.8.0
   image_picker: ^0.8.7
   flutter_tesseract_ocr: ^0.4.28
+  path_provider: ^2.1.5
 
 
 dev_dependencies:

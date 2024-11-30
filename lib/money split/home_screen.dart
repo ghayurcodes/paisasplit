@@ -56,18 +56,19 @@ class _homepageState extends State<homepage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         forceMaterialTransparency: true,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
           title: FittedBox(child: Text("Money Split",style: TextStyle(
             fontSize: _width*0.09,
             fontFamily: "Meme",
             fontWeight: FontWeight.w600
           ),),),
         centerTitle: true,
+          elevation: 20,
       ),
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.white,
         // decoration: BoxDecoration(
         //     image: DecorationImage(
         //       image: AssetImage('assets/images/bg_blue.jpg'),
@@ -181,22 +182,26 @@ class _homepageState extends State<homepage> {
                             child: SwipeableTile(
                               key: UniqueKey(),
                               backgroundBuilder: (context, direction, progress) {
-                                return Container();
+                                return Container(
+                                );
                               },
-                              color: Colors.black.withOpacity(0.1),
+                               color: Colors.transparent,
                               swipeThreshold: 0.3,
-                              isElevated: false,
+                              isElevated: true,
                               direction: SwipeDirection.horizontal,
                               onSwiped: (direction) {
                                 if (direction == SwipeDirection.endToStart) {
-                                  value.deleteEntry(value.i_take[index], 1);
+                                  value.deleteEntry(value.i_give[index], 0);
 
                                 } else if (direction == SwipeDirection.startToEnd) {
-                                  value.deleteEntry(value.i_take[index], 1);
+                                  value.deleteEntry(value.i_give[index], 0);
                                   //add remove in upper part
                                 }
 
                               },
+                              borderRadius: 10,
+
+
 
                               child: ListTile(
                                 leading: CircleAvatar(
@@ -247,9 +252,10 @@ class _homepageState extends State<homepage> {
                               backgroundBuilder: (context, direction, progress) {
                                 return Container();
                               },
-                              color: Colors.redAccent,
+                              color: Colors.transparent,
+                              borderRadius: 10,
                               swipeThreshold: 0.3,
-                              isElevated: false,
+                              isElevated: true,
                               direction: SwipeDirection.horizontal,
                               onSwiped: (direction) {
                                 if (direction == SwipeDirection.endToStart) {
