@@ -22,64 +22,14 @@ class user_screen extends StatefulWidget {
 }
 
 class _user_screenState extends State<user_screen> {
-  final Box pfp = Hive.box('data');
-  File? _imageFile;
 
-  @override
-  void initState() {
-    super.initState();
 
-    final savedImageData = pfp.get('profileImage');
-    if (savedImageData != null) {
-      _loadImageFromBase64(savedImageData);
-    }
-  }
-
-  Future<void> _loadImageFromBase64(String base64String) async {
-    try {
-      // Decode base64 string to bytes
-      var bytes = base64Decode(base64String);
-
-      // Create a temporary file to store the image
-      final tempDir = await getTemporaryDirectory();
-      final tempFile = File('${tempDir.path}/profile_image.png');
-
-      await tempFile.writeAsBytes(bytes);
-
-      setState(() {
-        _imageFile = tempFile;
-      });
-    } catch (e) {
-      print('Error loading image: $e');
-    }
-  }
-
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      final imageFile = File(pickedFile.path);
-
-      // Read image file as bytes and convert to base64
-      List<int> imageBytes = await imageFile.readAsBytes();
-      String base64Image = base64Encode(imageBytes);
-
-      setState(() {
-        _imageFile = imageFile;
-      });
-
-      // Save the image as base64 encoded string in Hive
-      pfp.put('profileImage', base64Image);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
-    final previousMonth =
-        DateTime(DateTime.now().year, DateTime.now().month - 1);
+    final previousMonth = DateTime(DateTime.now().year, DateTime.now().month - 1);
     var valuee=Provider.of<data_provider>(context, listen: false);
 
     return Scaffold(
@@ -149,34 +99,41 @@ class _user_screenState extends State<user_screen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              margin: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              padding: EdgeInsets.all(3),
-                              child: _imageFile == null
-                                  ? InkWell(
-                                      onTap: () {
-                                        _pickImage();
-                                      },
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        radius: _width * 0.15,
-                                        child: Icon(
-                                          Icons.add_circle_rounded,
-                                          size: 50,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      radius: _width * 0.15,
-                                      backgroundImage: FileImage(_imageFile!)
-                                          as ImageProvider,
+                            Consumer<data_provider>(builder: (context, value, child) {
+                              return Container(
+                                margin: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0xfff94c61),
+                                ),
+                                padding: EdgeInsets.all(3),
+                                child: value.imageFile == null
+                                    ? InkWell(
+                                  onTap: () {
+                                    value.pickImage();
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: _width * 0.15,
+                                    child: Icon(
+                                      Icons.add_circle_rounded,
+                                      size: 50,
+                                      color: Colors.black,
                                     ),
-                            ),
+                                  ),
+                                )
+                                    : InkWell(
+                                  onLongPress: (){
+                                    value.pickImage();
+                                  },
+                                      child: CircleAvatar(
+                                                                        radius: _width * 0.15,
+                                                                        backgroundImage: FileImage(value.imageFile!)
+                                                                        as ImageProvider,
+                                                                      ),
+                                    ),
+                              );
+                            },),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

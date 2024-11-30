@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../Hive data/Entry.dart';
@@ -14,6 +17,7 @@ class data_provider with ChangeNotifier{
   List<double> current_month_data=[0,0];
   List<double> prev_month_data=[0,0];
   String name="";
+  File? imageFile;
 
   getHiveData() async {
     var box = await Hive.openBox('data');
@@ -21,6 +25,10 @@ class data_provider with ChangeNotifier{
     String? oweMeJson = box.get('oweMe');
     String? iOweJson = box.get('iOwe');
     name=box.get('name',defaultValue: "");
+    final savedImageData = box.get('profileImage');
+    if (savedImageData != null) {
+      decode(savedImageData);
+    }
 
     if (oweMeJson != null) {
       List<dynamic> oweMeList = jsonDecode(oweMeJson);
@@ -66,8 +74,6 @@ class data_provider with ChangeNotifier{
   notifyListeners();
 
   }
-
-
 
   saveToHive(String name,double amount,DateTime time,int opt) async {
     var box = await Hive.openBox('data');
@@ -168,7 +174,6 @@ class data_provider with ChangeNotifier{
 
     return total;
   }
-
   void save_name(BuildContext context) {
     final TextEditingController namecontroler = TextEditingController();
 
@@ -210,8 +215,6 @@ class data_provider with ChangeNotifier{
     );
     notifyListeners();
   }
-  
-
   void delall()async{
     var box = await Hive.openBox('data');
     i_give.clear();
@@ -224,29 +227,59 @@ class data_provider with ChangeNotifier{
     notifyListeners();
 
   }
+  Future<void> decode(String base64String) async {
+    try {
+      // Decode base64 string to bytes
+      var bytes = base64Decode(base64String);
+
+      // Create a temporary file to store the image
+      final tempDir = await getTemporaryDirectory();
+      final tempFile = File('${tempDir.path}/profile_image.png');
+
+      await tempFile.writeAsBytes(bytes);//storing image on local storage
+      imageFile = tempFile;
+      notifyListeners();
+
+    } catch (e) {
+      print('Error loading image: $e');
+    }
+  }
+  Future<void> pickImage() async {
+    var box = await Hive.openBox('data');
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final imageFilee = File(pickedFile.path);
+
+      // Read image file as bytes and convert to base64
+      var imageBytes = await imageFilee.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+        imageFile = imageFilee;
+      box.put('profileImage', base64Image);//styoring encoded string in hive
+    }
+    notifyListeners();
+  }
+
+
+
+  
+
+
 }
+
+
 
 
 
 
 TextStyle stylee(){
   return TextStyle(
-    fontSize: 20,
-    fontFamily: "splash"
+      fontSize: 20,
+      fontFamily: "splash"
   );
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 popup_add(
     var context,
@@ -349,8 +382,8 @@ popup_add(
                           ),
                         ),
                         Expanded(child: Container(
-                          height: _height*0.06,
-                          width: 2
+                            height: _height*0.06,
+                            width: 2
                         ),flex: 1,),
                         Expanded(
                           flex: 5,
@@ -394,6 +427,15 @@ popup_add(
     },
   );
 }
+
+
+
+
+
+
+
+
+
 
 
 
