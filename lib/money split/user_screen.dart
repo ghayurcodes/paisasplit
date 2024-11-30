@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
+import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pie_chart/pie_chart.dart';
+import 'package:provider/provider.dart';
 
 class user_screen extends StatefulWidget {
   const user_screen({super.key});
@@ -18,16 +20,15 @@ class user_screen extends StatefulWidget {
 }
 
 class _user_screenState extends State<user_screen> {
-  final Box pfp = Hive.box('data'); // Hive box instance
+  final Box pfp = Hive.box('data');
   File? _imageFile;
 
   @override
   void initState() {
     super.initState();
-    // Load saved image if available
+
     final savedImageData = pfp.get('profileImage');
     if (savedImageData != null) {
-      // Convert base64 string back to File
       _loadImageFromBase64(savedImageData);
     }
   }
@@ -41,7 +42,6 @@ class _user_screenState extends State<user_screen> {
       final tempDir = await getTemporaryDirectory();
       final tempFile = File('${tempDir.path}/profile_image.png');
 
-      // Write bytes to file
       await tempFile.writeAsBytes(bytes);
 
       setState(() {
@@ -91,7 +91,7 @@ class _user_screenState extends State<user_screen> {
       body: Container(
         width: _width,
         height: _height,
-        color: Colors.grey,
+        color: Colors.white,
         child: Center(
           child: Column(
             children: [
@@ -180,21 +180,29 @@ class _user_screenState extends State<user_screen> {
                           children: [
                             Expanded(
                               child: Container(
-                                color: Colors.red,
+                                color: Colors.white,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(15),
                                         child: Text(DateFormat('MMMM').format(DateTime.now()),style: TextStyle(
-                                          fontSize: _width*0.08,
+                                          fontSize: _width*0.06,
                                           fontWeight: FontWeight.w700,
-                                          color: Colors.black,
+                                          color: Color(0xff2d3032),
                                         ),),
                                       ),
                                     ),
+                                    Expanded(
+                                      child: Consumer<data_provider>(builder: (context, value, child) {
+                                        return PieChart(dataMap:{
+                                          "Recived":value.current_month_data[1],
+                                          "Sent":value.current_month_data[0]
+                                        });
+                                      },),
+                                    )
                                   ],
                                 ),
                               ),
@@ -204,20 +212,20 @@ class _user_screenState extends State<user_screen> {
                             ),
                             Expanded(
                               child: Container(
-                                color: Colors.pinkAccent,
+                                color: Colors.white,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(15),
                                         child: Text(
                                           '${DateFormat('MMMM').format(previousMonth)}',
                                           style: TextStyle(
-                                            fontSize: _width * 0.08,
+                                            fontSize: _width * 0.06,
                                             fontWeight: FontWeight.w700,
-                                            color: Colors.black,
+                                            color: Color(0xff2d3032)
                                           ),
                                         ),
                                       ),
@@ -226,6 +234,7 @@ class _user_screenState extends State<user_screen> {
                                 ),
                               ),
                             ),
+
 
 
                           ],

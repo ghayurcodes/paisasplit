@@ -30,6 +30,7 @@ dependencies:
   image_picker: ^0.8.7
   flutter_tesseract_ocr: ^0.4.28
   path_provider: ^2.1.5
+  pie_chart: ^5.4.0
 
 
 dev_dependencies:

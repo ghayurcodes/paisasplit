@@ -12,30 +12,63 @@ class data_provider with ChangeNotifier{
 
   List<Entry>  i_take =[];
   List<Entry> i_give = [];
+   double? recived;
+  double? sent;
+  List<double> current_month_data=[0,0];
+  List<double> prev_month_data=[0,0];
 
   getHiveData() async {
-
-    var box= await Hive.openBox('data');
+    var box = await Hive.openBox('data');
     // Check if the data exists in the box
-    String? oweMeJson =box.get('oweMe');
+    String? oweMeJson = box.get('oweMe');
     String? iOweJson = box.get('iOwe');
 
     if (oweMeJson != null) {
       List<dynamic> oweMeList = jsonDecode(oweMeJson);
       i_take = oweMeList.map((e) => Entry.fromJson(e)).toList();
       print(i_take.length);
-
     }
 
     if (iOweJson != null) {
       List<dynamic> iOweList = jsonDecode(iOweJson);
       i_give = iOweList.map((e) => Entry.fromJson(e)).toList();
       print(i_give.length);
-
     }
+    current_month_data=[0,0];
+    List<double> prev_month_data=[0,0];
+    for(var i in i_take) {
+      if (i.dateTime.month == DateTime
+          .now()
+          .month) {
+        current_month_data[1] += i.amount;
+      }
+      if (i.dateTime.month == DateTime
+          .now()
+          .month - 1) {
+        prev_month_data[1] += i.amount;
+      }
+    }
+      for (var i in i_give) {
+        if (i.dateTime.month == DateTime
+            .now()
+            .month) {
+          current_month_data[0] += i.amount;
+        }
+        if (i.dateTime.month == DateTime
+            .now()
+            .month - 1) {
+          prev_month_data[0] += i.amount;
+        }
+      }
+
+
+
   notifyListeners();
 
   }
+
+
+
   saveToHive(String name,double amount,DateTime time,int opt) async {
     var box = await Hive.openBox('data');
     Entry temp = Entry(name,amount,time);
