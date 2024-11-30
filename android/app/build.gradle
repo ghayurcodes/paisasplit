@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ghayur.paisasplit"
-        minSdk = flutter.minSdkVersion
+        minSdk = 21
         targetSdk = flutter.targetSdkVersion
         // Set the versionCode and versionName directly
         versionCode 1  // or use your desired version code
