@@ -64,12 +64,10 @@ class data_provider with ChangeNotifier{
       i_give.remove(entry);
       String iOweJson = jsonEncode(i_give.map((e) => e.toJson()).toList());
       await box.put('iOwe', iOweJson);
-      print('Entry removed from "iOwe"');
     } else if (opt == 1) {
       i_take.remove(entry);
       String oweMeJson = jsonEncode(i_take.map((e) => e.toJson()).toList());
       await box.put('oweMe', oweMeJson);
-      print('Entry removed from "oweMe"');
     }
 
     notifyListeners();

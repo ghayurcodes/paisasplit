@@ -178,22 +178,43 @@ class _homepageState extends State<homepage> {
                         return ListView.builder(itemBuilder:  (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.redAccent,
-                              ),
-                              title: Text(value.i_give[index].name,style: TextStyle(
-                                fontSize: _width*0.05,
+                            child: SwipeableTile(
+                              key: UniqueKey(),
+                              backgroundBuilder: (context, direction, progress) {
+                                return Container();
+                              },
+                              color: Colors.black.withOpacity(0.1),
+                              swipeThreshold: 0.3,
+                              isElevated: false,
+                              direction: SwipeDirection.horizontal,
+                              onSwiped: (direction) {
+                                if (direction == SwipeDirection.endToStart) {
+                                  value.deleteEntry(value.i_take[index], 1);
 
-                              ),),
-                              trailing: FittedBox(
-                                child: Text("\$${value.i_give[index].amount}",style: TextStyle(
-                                    fontSize: _width*0.09,
-                                    fontFamily: "splash",
-                                    color: Colors.redAccent
+                                } else if (direction == SwipeDirection.startToEnd) {
+                                  value.deleteEntry(value.i_take[index], 1);
+                                  //add remove in upper part
+                                }
+
+                              },
+
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                                title: Text(value.i_give[index].name,style: TextStyle(
+                                  fontSize: _width*0.05,
 
                                 ),),
+                                trailing: FittedBox(
+                                  child: Text("\$${value.i_give[index].amount}",style: TextStyle(
+                                      fontSize: _width*0.09,
+                                      fontFamily: "splash",
+                                      color: Colors.redAccent
+
+                                  ),),
+                                ),
                               ),
                             ),
 
