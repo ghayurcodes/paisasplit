@@ -82,6 +82,7 @@ class _user_screenState extends State<user_screen> {
     TextEditingController change_name = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         forceMaterialTransparency: true,
         backgroundColor: Colors.white,
@@ -150,7 +151,7 @@ class _user_screenState extends State<user_screen> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Consumer(
+                                child: Consumer<data_provider>(
                                   builder: (context, value, child) {
                                     return Column(
                                       mainAxisAlignment:
@@ -159,20 +160,26 @@ class _user_screenState extends State<user_screen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         FittedBox(
-                                          child: Text(
-                                            "dan abraham",
-                                            style: TextStyle(
-                                              fontSize: _width * 0.1,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xfff94c61),
+                                          child: InkWell(
+                                      onLongPress: (){
+                                        value.save_name(context);
+                                      }
+                                            ,
+                                            child: Text(
+                                              value.name==""?"Hold to edit":value.name,
+                                              style: TextStyle(
+                                                fontSize: _width * 0.1,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xfff94c61),
+                                              ),
+                                              textAlign: TextAlign.left,
                                             ),
-                                            textAlign: TextAlign.left,
                                           ),
                                         ),
                                         SizedBox(height: 5),
                                         FittedBox(
                                           child: Text(
-                                            "you owe 50\$",
+                                            "you owe ${value.calculate_total(value.i_give)}\$",
                                             style: TextStyle(
                                               fontSize: _width * 0.05,
                                               color: Color(0xfff94c61),
@@ -181,7 +188,9 @@ class _user_screenState extends State<user_screen> {
                                         ),
                                         SizedBox(height: 10),
                                         InkWell(
-                                          onTap: () {},
+                                          onTap: () {
+                                            value.delall();
+                                          },
                                           child: Container(
                                             width: 70,
                                             height: 30,
@@ -242,7 +251,23 @@ class _user_screenState extends State<user_screen> {
                                     Expanded(
                                       child: Consumer<data_provider>(
                                         builder: (context, value, child) {
-                                          return PieChart(
+                                          return (value.current_month_data[0]==0 && value.current_month_data[1]==0)? Center(
+                                          child: FittedBox(
+                                          child: Column(
+                                          children: [
+                                          Lottie.asset(
+                                          "assets/gifs/empty.json",
+                                          fit: BoxFit.fill,
+                                          height:
+                                          _height * 0.2),
+                                          Text(
+                                          "No records found!",
+                                          style: TextStyle(
+                                          fontSize: 29),
+                                          )
+                                          ],
+                                          ),
+                                          )):PieChart(
                                             dataMap: {
                                               "Recived":
                                                   value.current_month_data[1],
