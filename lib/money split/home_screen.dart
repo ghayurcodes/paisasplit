@@ -63,7 +63,7 @@ class _homepageState extends State<homepage> {
             fontWeight: FontWeight.w600
           ),),),
         centerTitle: true,
-          elevation: 20,
+
       ),
       body: Container(
         width: double.maxFinite,
@@ -96,7 +96,7 @@ class _homepageState extends State<homepage> {
                                width: _width*0.4,
                                height: _width*0.4,
                                decoration: BoxDecoration(
-                                   color: Colors.redAccent,
+                                   color: Color(0xfff94c61),
                                    shape: BoxShape.circle
                                ),
                                child: Center(
@@ -129,7 +129,7 @@ class _homepageState extends State<homepage> {
                                width: _width*0.4,
                                height: _width*0.4,
                                decoration: BoxDecoration(
-                                   color: Colors.green,
+                                   color: Color(0xff529854),
                                    shape: BoxShape.circle
                                ),
                                child: Center(
@@ -206,7 +206,7 @@ class _homepageState extends State<homepage> {
                               child: ListTile(
                                 leading: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Colors.redAccent,
+                                  backgroundColor: Color(0xfff94c61),
                                 ),
                                 title: Text(value.i_give[index].name,style: TextStyle(
                                   fontSize: _width*0.05,
@@ -215,7 +215,6 @@ class _homepageState extends State<homepage> {
                                 trailing: FittedBox(
                                   child: Text("\$${value.i_give[index].amount}",style: TextStyle(
                                       fontSize: _width*0.09,
-                                      fontFamily: "splash",
                                       color: Colors.redAccent
 
                                   ),),
@@ -273,7 +272,7 @@ class _homepageState extends State<homepage> {
                               child: ListTile(
                                 leading: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Colors.red,
+                                  backgroundColor: Color(0xff529854),
                                 ),
                                 title: Text(value.i_take[index].name,style: TextStyle(
                                   fontSize: _width*0.05,
@@ -282,7 +281,6 @@ class _homepageState extends State<homepage> {
                                 trailing: FittedBox(
                                   child: Text("\$${value.i_take[index].amount}",style: TextStyle(
                                       fontSize: _width*0.09,
-                                      fontFamily: "splash",
                                       color: Colors.green
                               
                                   ),),

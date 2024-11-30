@@ -26,13 +26,13 @@ class data_provider with ChangeNotifier{
     if (oweMeJson != null) {
       List<dynamic> oweMeList = jsonDecode(oweMeJson);
       i_take = oweMeList.map((e) => Entry.fromJson(e)).toList();
-      print(i_take.length);
+
     }
 
     if (iOweJson != null) {
       List<dynamic> iOweList = jsonDecode(iOweJson);
       i_give = iOweList.map((e) => Entry.fromJson(e)).toList();
-      print(i_give.length);
+
     }
     current_month_data=[0,0];
     List<double> prev_month_data=[0,0];
@@ -77,14 +77,14 @@ class data_provider with ChangeNotifier{
       i_give.add(temp);
       String iOweJson = jsonEncode(i_give.map((e) => e.toJson()).toList());
       await box.put('iOwe', iOweJson);
-      print('i owe added');
+
     }
 
     else if(opt==1){
       i_take.add(temp);
       String oweMeJson = jsonEncode(i_take.map((e) => e.toJson()).toList());
       await box.put('oweMe', oweMeJson);
-      print('owe mee added');
+
 
     }
 
@@ -113,6 +113,44 @@ class data_provider with ChangeNotifier{
 
     return total;
   }
+
+  void save_name(BuildContext context) {
+    final TextEditingController name = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Enter Your Input"),
+          content: TextField(
+            controller: name,
+            decoration: InputDecoration(
+              hintText: "Type something...",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                String userInput = name.text;
+                // Perform save action here
+                print("Saved Input: $userInput");
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Save"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 
 }
 

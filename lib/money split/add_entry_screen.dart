@@ -67,14 +67,13 @@ class add_screen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         backgroundColor: Colors.white,
-        title: FittedBox(
-          child: Text("Add bill",style: TextStyle(
-              fontSize: _width*0.08,
-              fontFamily: "Meme",
-              fontWeight: FontWeight.w600
-          ),),
-        ),
+        title: FittedBox(child: Text("Add bill",style: TextStyle(
+            fontSize: _width*0.09,
+            fontFamily: "Meme",
+            fontWeight: FontWeight.w600
+        ),),),
         centerTitle: true,
         actions: [
           Padding(

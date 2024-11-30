@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
@@ -76,11 +77,24 @@ class _user_screenState extends State<user_screen> {
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     var _width = MediaQuery.of(context).size.width;
-    final previousMonth = DateTime(DateTime.now().year, DateTime.now().month - 1);
+    final previousMonth =
+        DateTime(DateTime.now().year, DateTime.now().month - 1);
+    TextEditingController change_name = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         backgroundColor: Colors.white,
+        title: FittedBox(
+          child: Text(
+            "user",
+            style: TextStyle(
+                fontSize: _width * 0.09,
+                fontFamily: "Meme",
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+        centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -101,7 +115,7 @@ class _user_screenState extends State<user_screen> {
                     Expanded(
                       flex: 3,
                       child: Container(
-                        color: Colors.lightBlueAccent,
+                        color: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -114,64 +128,90 @@ class _user_screenState extends State<user_screen> {
                               padding: EdgeInsets.all(3),
                               child: _imageFile == null
                                   ? InkWell(
-                                onTap: () {
-                                  _pickImage();
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: _width * 0.15,
-                                  child: Icon(
-                                    Icons.add_circle_rounded,
-                                    size: 50,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              )
+                                      onTap: () {
+                                        _pickImage();
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: _width * 0.15,
+                                        child: Icon(
+                                          Icons.add_circle_rounded,
+                                          size: 50,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    )
                                   : CircleAvatar(
-                                radius: _width * 0.15,
-                                backgroundImage: FileImage(_imageFile!) as ImageProvider,
-                              ),
+                                      radius: _width * 0.15,
+                                      backgroundImage: FileImage(_imageFile!)
+                                          as ImageProvider,
+                                    ),
                             ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    FittedBox(
-                                      child: Text(
-                                        "dan abraham",
-                                        style: TextStyle(
-                                          fontSize: _width * 0.1,
-                                          fontWeight: FontWeight.bold,
+                                child: Consumer(
+                                  builder: (context, value, child) {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FittedBox(
+                                          child: Text(
+                                            "dan abraham",
+                                            style: TextStyle(
+                                              fontSize: _width * 0.1,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xfff94c61),
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
                                         ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    FittedBox(
-                                      child: Text(
-                                        "you owe 50\$",
-                                        style: TextStyle(
-                                          fontSize: _width * 0.05,
-                                          color: Colors.red,
+                                        SizedBox(height: 5),
+                                        FittedBox(
+                                          child: Text(
+                                            "you owe 50\$",
+                                            style: TextStyle(
+                                              fontSize: _width * 0.05,
+                                              color: Color(0xfff94c61),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
+                                        SizedBox(height: 10),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Container(
+                                            width: 70,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    color: Colors.red,
+                                                    width: 2),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Center(
+                                              child: Text('Clear all'),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
                     ),
                     Divider(
-                      color: Colors.grey,height: 1,thickness: 2,
+                      color: Colors.grey,
+                      height: 1,
+                      thickness: 2,
                     ),
-
                     Expanded(
                       flex: 7,
                       child: Container(
@@ -188,27 +228,43 @@ class _user_screenState extends State<user_screen> {
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding: const EdgeInsets.all(15),
-                                        child: Text(DateFormat('MMMM').format(DateTime.now()),style: TextStyle(
-                                          fontSize: _width*0.06,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff2d3032),
-                                        ),),
+                                        child: Text(
+                                          DateFormat('MMMM')
+                                              .format(DateTime.now()),
+                                          style: TextStyle(
+                                            fontSize: _width * 0.06,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xff2d3032),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     Expanded(
-                                      child: Consumer<data_provider>(builder: (context, value, child) {
-                                        return PieChart(dataMap:{
-                                          "Recived":value.current_month_data[1],
-                                          "Sent":value.current_month_data[0]
-                                        });
-                                      },),
+                                      child: Consumer<data_provider>(
+                                        builder: (context, value, child) {
+                                          return PieChart(
+                                            dataMap: {
+                                              "Recived":
+                                                  value.current_month_data[1],
+                                              "Sent":
+                                                  value.current_month_data[0]
+                                            },
+                                            colorList: [
+                                              Color(0xff529854),
+                                              Color(0xfff94c61),
+                                            ],
+                                          );
+                                        },
+                                      ),
                                     )
                                   ],
                                 ),
                               ),
                             ),
                             Divider(
-                              color: Colors.grey,height: 1,thickness: 2,
+                              color: Colors.grey,
+                              height: 1,
+                              thickness: 2,
                             ),
                             Expanded(
                               child: Container(
@@ -223,20 +279,52 @@ class _user_screenState extends State<user_screen> {
                                         child: Text(
                                           '${DateFormat('MMMM').format(previousMonth)}',
                                           style: TextStyle(
-                                            fontSize: _width * 0.06,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xff2d3032)
-                                          ),
+                                              fontSize: _width * 0.06,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xff2d3032)),
                                         ),
                                       ),
                                     ),
+                                    Expanded(
+                                      child: Consumer<data_provider>(
+                                        builder: (context, value, child) {
+                                          return value.prev_month_data[1] == 0
+                                              ? Center(
+                                                  child: FittedBox(
+                                                  child: Column(
+                                                    children: [
+                                                      Lottie.asset(
+                                                          "assets/gifs/empty.json",
+                                                          fit: BoxFit.fill,
+                                                          height:
+                                                              _height * 0.2),
+                                                      Text(
+                                                        "No records found!",
+                                                        style: TextStyle(
+                                                            fontSize: 29),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ))
+                                              : PieChart(
+                                                  dataMap: {
+                                                    "Recived": value
+                                                        .prev_month_data[1],
+                                                    "Sent":
+                                                        value.prev_month_data[0]
+                                                  },
+                                                  colorList: [
+                                                    Color(0xff529854),
+                                                    Color(0xfff94c61),
+                                                  ],
+                                                );
+                                        },
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             ),
-
-
-
                           ],
                         ),
                       ),
@@ -255,9 +343,19 @@ class _user_screenState extends State<user_screen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    InkWell(child: Icon(Icons.history,size: _width*0.1,),onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => homepage(),));
-                    },),
+                    InkWell(
+                      child: Icon(
+                        Icons.history,
+                        size: _width * 0.1,
+                      ),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => homepage(),
+                            ));
+                      },
+                    ),
                     InkWell(
                       child: FittedBox(
                         child: Icon(
@@ -267,7 +365,11 @@ class _user_screenState extends State<user_screen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => add_screen(),));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => add_screen(),
+                            ));
                       },
                     ),
                     Icon(Icons.person, size: _width * 0.1),
