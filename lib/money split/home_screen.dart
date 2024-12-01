@@ -298,13 +298,13 @@ class _homepageState extends State<homepage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.history,size: _width*0.1,),
+                    Image.asset('assets/images/home-page.png',width:  _width*0.09),
                     InkWell(child: FittedBox(child: Icon(Icons.add_circle_rounded,size: _width*0.2,color: Colors.green,)),
                     onTap: (){
                       Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.rightToLeft));
                     },),
 
-                    InkWell(child: Icon(Icons.person,size: _width*0.1,),onTap: () {
+                    InkWell(child: Image.asset('assets/images/person.png',width:  _width*0.09),onTap: () {
                       Navigator.pushReplacement(context, PageTransition(child: user_screen(), type: PageTransitionType.rightToLeft));
                     },),
 
