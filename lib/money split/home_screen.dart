@@ -13,7 +13,6 @@ import 'package:paisasplit/money%20split/user_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
-import 'Hive data/Entry.dart';
 
 class homepage extends StatefulWidget {
   homepage({super.key});

@@ -9,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../Hive data/Entry.dart';
+import '../Hive_model/Entry.dart';
+
 
 class data_provider with ChangeNotifier{
   List<Entry>  i_take =[];

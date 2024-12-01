@@ -7,7 +7,6 @@ import 'package:paisasplit/money%20split/home_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'money split/Hive data/Entry.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
