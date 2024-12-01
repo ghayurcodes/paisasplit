@@ -199,7 +199,8 @@ class _homepageState extends State<homepage> {
                               child: ListTile(
                                 leading: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Color(0xfff94c61),
+                                  child: Image.asset('assets/images/give_moneyy.png',fit: BoxFit.contain,height: 40,),
+                                  backgroundColor: Colors.transparent,
                                 ),
                                 title: Text(value.i_give[index].name,style: TextStyle(
                                   fontSize: _width*0.05,
@@ -265,7 +266,8 @@ class _homepageState extends State<homepage> {
                               child: ListTile(
                                 leading: CircleAvatar(
                                   radius: 25,
-                                  backgroundColor: Color(0xff529854),
+                                  child: Image.asset('assets/images/take_money.png',fit: BoxFit.contain,height: 100,),
+                                  backgroundColor: Colors.transparent,
                                 ),
                                 title: Text(value.i_take[index].name,style: TextStyle(
                                   fontSize: _width*0.05,

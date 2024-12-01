@@ -127,10 +127,11 @@ class _user_screenState extends State<user_screen> {
                                     value.pickImage();
                                   },
                                       child: CircleAvatar(
-                                                                        radius: _width * 0.15,
-                                                                        backgroundImage: FileImage(value.imageFile!)
-                                                                        as ImageProvider,
-                                                                      ),
+                                        radius: _width * 0.15,
+                                        backgroundImage: FileImage(value.imageFile!,)
+                                        as ImageProvider,
+
+                                      ),
                                     ),
                               );
                             },),
