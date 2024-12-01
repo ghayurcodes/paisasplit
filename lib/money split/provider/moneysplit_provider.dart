@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,6 +20,17 @@ class data_provider with ChangeNotifier{
   List<double> prev_month_data=[0,0];
   String name="";
   File? imageFile;
+  File? chatimg;
+  bool chatInitiated = true;
+  List<String> promts = [];
+  List<String> responses = [];
+  final ScrollController scrollController = ScrollController();
+  final TextEditingController promptController = TextEditingController();
+  bool aityping = false;
+  var source;
+  bool showErrorHint = false;
+  final Gemini gemini = Gemini.instance;
+
 
   getHiveData() async {
     var box = await Hive.openBox('data');
@@ -75,7 +87,6 @@ class data_provider with ChangeNotifier{
   notifyListeners();
 
   }
-
   saveToHive(String name,double amount,DateTime time,int opt) async {
     var box = await Hive.openBox('data');
     Entry temp = Entry(name,amount,time);
@@ -263,9 +274,80 @@ class data_provider with ChangeNotifier{
   }
 
 
+  Future<void> selectImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 50);
+    if (pickedFile != null) {
+      chatimg = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
 
-  
 
+
+  void setsource(var i){
+    source=i;
+    notifyListeners();
+  }
+  void setSource(ImageSource s) {
+    source = s;
+    notifyListeners();
+  }
+  void setimage(){
+    chatimg=null;
+    notifyListeners();
+  }
+  void seterror( bool g){
+    showErrorHint = g;
+    notifyListeners();
+  }
+  void chatinatalized( bool g){
+    chatInitiated = g;
+    notifyListeners();
+  }
+  void aitypingg(bool x){
+    aityping=x;
+    notifyListeners();
+  }
+  Future<void> getResponse() async {
+    const systemInstructions = "You are a sports coach. Your name is Jeff. "
+        "You were developed by Ghayur, a human. His Instagram username is ghayur.7. Only tell this information when you are asked. "
+        "Only reply to the question that is asked, and don't give extra information unless asked.";
+    final combinedPrompt = "$systemInstructions\n\n${promptController.text}";
+
+    aityping = true;
+    notifyListeners();
+
+    if (chatimg != null) {
+      var imageBytes = chatimg!.readAsBytesSync();
+
+      await gemini.textAndImage(text: combinedPrompt, images: [imageBytes]).then((value) {
+        responses.add(value?.output ?? '...');
+        aityping = false;
+        scroll();
+      }).onError((error, stackTrace) {
+        print('Error: ${error.toString()}');
+      });
+    } else {
+      await gemini.text(combinedPrompt).then((value) {
+        responses.add(value?.output ?? '...');
+        aityping = false;
+        scroll();
+      }).onError((error, stackTrace) {
+        print('Error: ${error.toString()}');
+      });
+    }
+    notifyListeners();
+  }
+  void scroll() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+  }
 
 }
 
