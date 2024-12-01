@@ -54,7 +54,7 @@ class add_screen extends StatelessWidget {
         height: _height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/red-blue-background.jpg',),
+            image: AssetImage('assets/images/bg.png'),
             fit: BoxFit.fill
           )
         ),
@@ -85,9 +85,9 @@ class add_screen extends StatelessWidget {
                                     left:
                                     10, // Adjust the left position to align with the bubble
                                     child: Image.asset(
-                                      'assets/images/person.png',
+                                      'assets/images/artificial-intelligence.png',
                                       fit: BoxFit.fill,
-                                      height: 270,
+                                      height: 180,
                                     ),
                                   ),
                                   // Position the speech bubble next to the robot
@@ -95,10 +95,10 @@ class add_screen extends StatelessWidget {
                                     bottom:
                                     200, // Adjust the bottom position to align the bubble with the robot
                                     left:
-                                    163, // Adjust the left position to place the bubble beside the robot
+                                    170, // Adjust the left position to place the bubble beside the robot
                                     child: BubbleSpecialThree(
                                       text:
-                                      'Ask away any\nfinance related stuff!!',
+                                      'Ask financial stuff!',
                                       color: Colors.white,
                                       isSender: false,
                                       textStyle: TextStyle(
@@ -344,7 +344,7 @@ class add_screen extends StatelessWidget {
                     ),
                     InkWell(
                       child: FittedBox(
-                        child: Image.asset('assets/images/home-page.png',width:  _width*0.09,height: 30,),
+                        child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
                       ),
                       onTap: () {},
                     ),

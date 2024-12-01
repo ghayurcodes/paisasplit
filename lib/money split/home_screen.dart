@@ -299,7 +299,7 @@ class _homepageState extends State<homepage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Image.asset('assets/images/home-page.png',width:  _width*0.09),
-                    InkWell(child: FittedBox(child: Icon(Icons.add_circle_rounded,size: _width*0.2,color: Colors.green,)),
+                    InkWell(child: FittedBox(child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),),
                     onTap: (){
                       Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.rightToLeft));
                     },),
