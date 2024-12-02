@@ -35,7 +35,7 @@ class _user_screenState extends State<user_screen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        forceMaterialTransparency: true,
+
         backgroundColor: Colors.white,
         title: FittedBox(
           child: Text(

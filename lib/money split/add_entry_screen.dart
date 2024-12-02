@@ -25,7 +25,6 @@ class add_screen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        forceMaterialTransparency: false,
         backgroundColor: Color(0xfff94c61),
         title: FittedBox(
           child: Text(

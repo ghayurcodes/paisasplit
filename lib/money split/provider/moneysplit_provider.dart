@@ -380,7 +380,7 @@ popup_add(
       var _provider=Provider.of<data_provider>(context,listen: false);
       return Center(
         child: BlurryContainer(
-            height: _height*0.26,
+            height: _height*0.30,
             width: _width*0.6,
             color: Colors.black.withOpacity(0.1),
             child:Column(

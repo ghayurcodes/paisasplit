@@ -47,7 +47,6 @@ class _homepageState extends State<homepage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        forceMaterialTransparency: true,
             backgroundColor: Colors.white,
           title: FittedBox(child: Text("Money Split",style: TextStyle(
             fontSize: _width*0.09,
