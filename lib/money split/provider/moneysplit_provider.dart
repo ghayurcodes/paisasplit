@@ -32,7 +32,6 @@ class data_provider with ChangeNotifier{
 
   getHiveData() async {
     var box = await Hive.openBox('data');
-    // Check if the data exists in the box
     String? oweMeJson = box.get('oweMe');
     String? iOweJson = box.get('iOwe');
     name=box.get('name',defaultValue: "");
