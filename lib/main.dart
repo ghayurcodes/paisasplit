@@ -1,9 +1,7 @@
-import 'dart:math';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:paisasplit/money%20split/add_entry_screen.dart';
 import 'package:paisasplit/money%20split/home_screen.dart';
 import 'package:paisasplit/money%20split/provider/moneysplit_provider.dart';
 import 'package:provider/provider.dart';
