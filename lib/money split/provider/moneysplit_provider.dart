@@ -312,9 +312,9 @@ class data_provider with ChangeNotifier{
   Future<void> getResponse() async {
     var igive=calculate_total(i_give).toString();
     var itake=calculate_total(i_take).toString();
-     var systemInstructions = "Hello, Fynn! You are a finance AI assistant in a loan management app. Your role is "
-    "to track how much the user owes (${igive}) and how much they are owed (${itake}), provide clear financial advice, offer tips on loan repayment"
-   " and send reminders with consent. Be concise, friendly, and answer only what’s asked, focusing on simplifying loan management and building user trust.";
+     var systemInstructions = "Hello, Fynn! You are a finance AI assistant for ${name.isEmpty?"":name}in a loan management app.currently"
+         "the user owes (${igive}) and  is owed (${itake})if the user tries to talke on other topic talk with it u can do other thinks also except financial advisor with you."
+         " Just try to talk with him like a normal bot would do. Be frank with him. But your answer should be concise. OK, not like too much long. Long paragraphs. .";
     final combinedPrompt = "$systemInstructions\n\n${promptController.text}";
 
     aityping = true;
