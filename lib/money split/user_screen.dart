@@ -362,9 +362,7 @@ class _user_screenState extends State<user_screen> {
                       },
                     ),
                     InkWell(
-                      child: FittedBox(
-                        child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
-                      ),
+                      child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
                       onTap: () {
                         Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.leftToRight));
                       },

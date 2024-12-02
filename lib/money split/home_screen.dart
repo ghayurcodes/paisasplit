@@ -61,13 +61,6 @@ class _homepageState extends State<homepage> {
         width: double.maxFinite,
         height: double.maxFinite,
         color: Colors.white,
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //       image: AssetImage('assets/images/bg_blue.jpg'),
-        //       fit: BoxFit.fill,
-        //       opacity: 0.6
-        //     )
-        // ),
         child: Center(
           child: Column(
             children: [
@@ -299,7 +292,7 @@ class _homepageState extends State<homepage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Image.asset('assets/images/home-page.png',width:  _width*0.09),
-                    InkWell(child: FittedBox(child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),),
+                    InkWell(child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
                     onTap: (){
                       Navigator.pushReplacement(context, PageTransition(child: add_screen(), type: PageTransitionType.rightToLeft));
                     },),

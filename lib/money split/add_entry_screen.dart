@@ -4,7 +4,6 @@ import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
@@ -26,11 +25,11 @@ class add_screen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        forceMaterialTransparency: true,
-        backgroundColor: Colors.white,
+        forceMaterialTransparency: false,
+        backgroundColor: Color(0xfff94c61),
         title: FittedBox(
           child: Text(
-            "Add bill",
+            "Fynn",
             style: TextStyle(
                 fontSize: _width * 0.09,
                 fontFamily: "Meme",
@@ -38,21 +37,11 @@ class add_screen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              "SAVE",
-              style: TextStyle(
-                  fontSize: _width * 0.04, fontWeight: FontWeight.w600),
-            ),
-          )
-        ],
       ),
       body: Container(
         width: _width,
         height: _height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/bg.png'),
             fit: BoxFit.fill
@@ -69,47 +58,45 @@ class add_screen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10, left: 10, top: 20),
                           child: BlurryContainer(
-                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                            borderRadius: const BorderRadius.all(Radius.circular(25)),
                             width: double.maxFinite,
                             blur: 7,
                             elevation: 1,
                             color: Colors.white.withOpacity(0.2),
                             child: chatProvider.promts.isEmpty
-                                ? Container(
-                              child: Stack(
-                                children: [
-                                  // Position the robot image
-                                  Positioned(
-                                    bottom:
-                                    5, // Position near the bottom of the container
-                                    left:
-                                    10, // Adjust the left position to align with the bubble
-                                    child: Image.asset(
-                                      'assets/images/artificial-intelligence.png',
-                                      fit: BoxFit.fill,
-                                      height: 180,
-                                    ),
-                                  ),
-                                  // Position the speech bubble next to the robot
-                                  const Positioned(
-                                    bottom:
-                                    200, // Adjust the bottom position to align the bubble with the robot
-                                    left:
-                                    170, // Adjust the left position to place the bubble beside the robot
-                                    child: BubbleSpecialThree(
-                                      text:
-                                      'Ask financial stuff!',
-                                      color: Colors.white,
-                                      isSender: false,
-                                      textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
+                                ? Stack(
+                                  children: [
+                                    // Position the robot image
+                                    Positioned(
+                                      bottom:
+                                      5, // Position near the bottom of the container
+                                      left:
+                                      10, // Adjust the left position to align with the bubble
+                                      child: Image.asset(
+                                        'assets/images/artificial-intelligence.png',
+                                        fit: BoxFit.fill,
+                                        height: 180,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
+                                    // Position the speech bubble next to the robot
+                                    const Positioned(
+                                      bottom:
+                                      200, // Adjust the bottom position to align the bubble with the robot
+                                      left:
+                                      170, // Adjust the left position to place the bubble beside the robot
+                                      child: BubbleSpecialThree(
+                                        text:
+                                        'Ask financial stuff!',
+                                        color: Colors.white,
+                                        isSender: false,
+                                        textStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
                                 : ListView.builder(
                               controller: chatProvider.scrollController,
                               reverse: chatProvider.chatInitiated, // true
@@ -198,7 +185,7 @@ class add_screen extends StatelessWidget {
                                             chatProvider.selectImage();
                                             Navigator.pop(context);
                                           },
-                                          leading: Icon(CupertinoIcons.camera)),
+                                          leading: const Icon(CupertinoIcons.camera)),
                                       BottomSheetAction(
                                           title: const Text('Gallery'),
                                           onPressed: (context) {
@@ -235,7 +222,7 @@ class add_screen extends StatelessWidget {
                                   decoration: InputDecoration(
                                     prefixIcon:  chatProvider.chatimg != null
                                         ? Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 7),
+                                      padding: const EdgeInsets.symmetric(horizontal: 7),
                                       child: Stack(
                                         children: [
                                           // Image
@@ -256,7 +243,7 @@ class add_screen extends StatelessWidget {
                                             right: 0,
                                             child: Center(
                                               child: IconButton(
-                                                icon: Icon(Icons.cancel,
+                                                icon: const Icon(Icons.cancel,
                                                     color: Colors.red, size: 25),
                                                 onPressed: () {
                                                   // Handle the cancel button press
@@ -287,6 +274,7 @@ class add_screen extends StatelessWidget {
                                           chatProvider.scroll();
                                           chatProvider.seterror(false);
                                           chatProvider.promts.add( chatProvider.promptController.text);
+                                          chatProvider.promptController.clear();
                                           chatProvider.getResponse();
                                         }
                   
@@ -322,7 +310,7 @@ class add_screen extends StatelessWidget {
               },),
 
               Container(
-                margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                margin: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
                 width: _width,
                 height: _height * 0.1,
                 decoration: BoxDecoration(
@@ -343,9 +331,7 @@ class add_screen extends StatelessWidget {
                       },
                     ),
                     InkWell(
-                      child: FittedBox(
-                        child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
-                      ),
+                      child: Image.asset('assets/images/technical-support.png',width:  _width*0.2,),
                       onTap: () {},
                     ),
                     InkWell(
@@ -354,7 +340,7 @@ class add_screen extends StatelessWidget {
                         Navigator.pushReplacement(
                             context,
                             PageTransition(
-                                child: user_screen(),
+                                child: const user_screen(),
                                 type: PageTransitionType.rightToLeft));
                       },
                     ),

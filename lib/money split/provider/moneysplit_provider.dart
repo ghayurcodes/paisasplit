@@ -310,9 +310,11 @@ class data_provider with ChangeNotifier{
     notifyListeners();
   }
   Future<void> getResponse() async {
-    const systemInstructions = "You are a sports coach. Your name is Jeff. "
-        "You were developed by Ghayur, a human. His Instagram username is ghayur.7. Only tell this information when you are asked. "
-        "Only reply to the question that is asked, and don't give extra information unless asked.";
+    var igive=calculate_total(i_give).toString();
+    var itake=calculate_total(i_take).toString();
+     var systemInstructions = "Hello, Fynn! You are a finance AI assistant in a loan management app. Your role is "
+    "to track how much the user owes (${igive}) and how much they are owed (${itake}), provide clear financial advice, offer tips on loan repayment"
+   " and send reminders with consent. Be concise, friendly, and answer only what’s asked, focusing on simplifying loan management and building user trust.";
     final combinedPrompt = "$systemInstructions\n\n${promptController.text}";
 
     aityping = true;
@@ -363,7 +365,6 @@ TextStyle stylee(){
   );
 
 }
-
 popup_add(
     var context,
     var _height,
@@ -472,11 +473,18 @@ popup_add(
                           flex: 5,
                           child: GestureDetector(
                             onTap: () {
+
                               if(name.text.isNotEmpty && amount.text.isNotEmpty ){
-                                _provider.saveToHive(name.text.trim(), double.parse(amount.text.trim()), DateTime.now(),opt);
-                                name.clear();
-                                amount.clear();
-                                Navigator.pop(context);
+                                try{
+                                  _provider.saveToHive(name.text.trim(), double.parse(amount.text.trim()), DateTime.now(),opt);
+                                  name.clear();
+                                  amount.clear();
+                                  Navigator.pop(context);
+                                }
+                                catch(e){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+
+                                }
                               }
                               else{
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter something")));
