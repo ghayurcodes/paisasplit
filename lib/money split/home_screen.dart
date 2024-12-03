@@ -48,7 +48,7 @@ class _homepageState extends State<homepage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
             backgroundColor: Colors.white,
-          title: FittedBox(child: Text("Money Split",style: TextStyle(
+          title: FittedBox(child: Text("Money Mate",style: TextStyle(
             fontSize: _width*0.09,
             fontFamily: "Meme",
             fontWeight: FontWeight.w600
