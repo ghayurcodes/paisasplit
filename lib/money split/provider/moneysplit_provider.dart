@@ -310,8 +310,7 @@ class data_provider with ChangeNotifier{
     var igive=calculate_total(i_give).toString();
     var itake=calculate_total(i_take).toString();
      var systemInstructions = "Hello, Fynn! You are a finance AI assistant for ${name.isEmpty?"":name}in a loan management app.currently"
-         "the user owes (${igive}) and  is owed (${itake})if the user tries to talke on other topic talk with it u can do other thinks also except financial advisor with you."
-         " Just try to talk with him like a normal bot would do. Be frank with him. But your answer should be concise. OK, not like too much long. Long paragraphs. .";
+         "the user owes ${igive} and  is owed ${itake}.your answers should be concise. OK, not like too much long. Long paragraphs. .";
     final combinedPrompt = "$systemInstructions\n\n${promptController.text}";
 
     aityping = true;
