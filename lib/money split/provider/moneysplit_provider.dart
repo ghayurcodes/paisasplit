@@ -309,8 +309,8 @@ class data_provider with ChangeNotifier{
   Future<void> getResponse() async {
     var igive=calculate_total(i_give).toString();
     var itake=calculate_total(i_take).toString();
-     var systemInstructions = "Hello, Fynn! You are a finance AI assistant for ${name.isEmpty?"":name}in a loan management app.currently"
-         "the user owes ${igive} and  is owed ${itake}.your answers should be concise. OK, not like too much long. Long paragraphs. .";
+     var systemInstructions = "Hello, Fynn! You are a finance AI assistant for ${name.isEmpty?"":name} in a loan management app.currently"
+         "the user owes ${igive} dollars and  is owed ${itake} dollars .your answers should be concise. OK, not like too much long. Long paragraphs.you cna also tell jokes and give advices";
     final combinedPrompt = "$systemInstructions\n\n${promptController.text}";
 
     aityping = true;
