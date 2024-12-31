@@ -47,7 +47,6 @@ class _homepageState extends State<homepage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-            backgroundColor: Colors.white,
           title: FittedBox(child: Text("Money Mate",style: TextStyle(
             fontSize: _width*0.09,
             fontFamily: "Meme",
