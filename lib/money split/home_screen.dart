@@ -172,16 +172,16 @@ class _homepageState extends State<homepage> {
                               swipeThreshold: 0.3,
                               isElevated: true,
                               direction: SwipeDirection.horizontal,
-                              onSwiped: (direction) {
-                                if (direction == SwipeDirection.endToStart) {
-                                  value.deleteEntry(value.i_give[index], 0);
-
-                                } else if (direction == SwipeDirection.startToEnd) {
-                                  value.deleteEntry(value.i_give[index], 0);
-                                  //add remove in upper part
-                                }
-
-                              },
+    onSwiped: (direction) {
+    if (direction == SwipeDirection.endToStart) {
+    // Show edit confirmation before deletion
+    value.deleteEntry(value.i_give[index], 0, context);
+    } else if (direction == SwipeDirection.startToEnd) {
+    // Show edit confirmation before deletion for this case as well
+    value.deleteEntry(value.i_give[index], 0, context);
+    // Add functionality for "remove in upper part" if needed
+    }
+    },
                               borderRadius: 10,
 
 
@@ -242,14 +242,15 @@ class _homepageState extends State<homepage> {
                               direction: SwipeDirection.horizontal,
                               onSwiped: (direction) {
                                 if (direction == SwipeDirection.endToStart) {
-                                  value.deleteEntry(value.i_take[index], 1);
-
+                                  // Show edit confirmation before deletion
+                                  value.deleteEntry(value.i_take[index], 1, context);
                                 } else if (direction == SwipeDirection.startToEnd) {
-                                  value.deleteEntry(value.i_take[index], 1);
-                                  //add remove in upper part
+                                  // Show edit confirmation before deletion for this case as well
+                                  value.deleteEntry(value.i_take[index], 1, context);
+                                  // Add functionality for "remove in upper part" if needed
                                 }
-
                               },
+
 
 
                               key: UniqueKey(),

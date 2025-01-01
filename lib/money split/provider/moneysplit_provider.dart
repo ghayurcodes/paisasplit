@@ -133,48 +133,113 @@ class data_provider with ChangeNotifier{
 
     notifyListeners();
   }
-  deleteEntry(Entry entry, int opt) async {
+  void deleteEntry(Entry entry, int opt, BuildContext context) async {
     var box = await Hive.openBox('data');
 
-    if (opt == 0) {
-      i_give.remove(entry);
-      String iOweJson = jsonEncode(i_give.map((e) => e.toJson()).toList());
-      await box.put('iOwe', iOweJson);
-    } else if (opt == 1) {
-      i_take.remove(entry);
-      String oweMeJson = jsonEncode(i_take.map((e) => e.toJson()).toList());
-      await box.put('oweMe', oweMeJson);
-    }
-    current_month_data=[0,0];
-    prev_month_data=[0,0];
+    // Text controllers to edit the entry
+    final TextEditingController nameController = TextEditingController(text: entry.name);
+    final TextEditingController amountController = TextEditingController(text: entry.amount.toString());
 
-    for(var i in i_take) {
-      if (i.dateTime.month == DateTime
-          .now()
-          .month) {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit or Delete Entry'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Name'),
+              ),
+              TextField(
+                controller: amountController,
+                decoration: InputDecoration(labelText: 'Amount'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Update the entry
+                if (nameController.text.isNotEmpty && amountController.text.isNotEmpty) {
+                  entry.name = nameController.text.trim();
+                  entry.amount = double.tryParse(amountController.text.trim()) ?? entry.amount;
+
+                  // Update Hive storage
+                  if (opt == 0) {
+                    String iOweJson = jsonEncode(i_give.map((e) => e.toJson()).toList());
+                    await box.put('iOwe', iOweJson);
+                  } else if (opt == 1) {
+                    String oweMeJson = jsonEncode(i_take.map((e) => e.toJson()).toList());
+                    await box.put('oweMe', oweMeJson);
+                  }
+
+                  updateMonthlyData();
+                  notifyListeners();
+                }
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Edit'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Delete the entry
+                if (opt == 0) {
+                  i_give.remove(entry);
+                  String iOweJson = jsonEncode(i_give.map((e) => e.toJson()).toList());
+                  await box.put('iOwe', iOweJson);
+                } else if (opt == 1) {
+                  i_take.remove(entry);
+                  String oweMeJson = jsonEncode(i_take.map((e) => e.toJson()).toList());
+                  await box.put('oweMe', oweMeJson);
+                }
+
+                updateMonthlyData();
+                notifyListeners();
+                Navigator.of(context).pop(); // Close dialog
+              },
+
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+// Helper function to update monthly data
+  void updateMonthlyData() {
+    current_month_data = [0, 0];
+    prev_month_data = [0, 0];
+
+    for (var i in i_take) {
+      if (i.dateTime.month == DateTime.now().month) {
         current_month_data[1] += i.amount;
       }
-      if (i.dateTime.month == DateTime
-          .now()
-          .month - 1) {
+      if (i.dateTime.month == DateTime.now().month - 1) {
         prev_month_data[1] += i.amount;
       }
     }
     for (var i in i_give) {
-      if (i.dateTime.month == DateTime
-          .now()
-          .month) {
+      if (i.dateTime.month == DateTime.now().month) {
         current_month_data[0] += i.amount;
       }
-      if (i.dateTime.month == DateTime
-          .now()
-          .month - 1) {
+      if (i.dateTime.month == DateTime.now().month - 1) {
         prev_month_data[0] += i.amount;
       }
     }
-
-    notifyListeners();
   }
+
   double calculate_total(List<Entry> s){
     double total=0;
     for(int i=0;i<s.length;i++){
@@ -253,7 +318,7 @@ class data_provider with ChangeNotifier{
       print('Error loading image: $e');
     }
   }
-  Future<void> pickImage() async {
+  Future<void> pickImage() async {//for pfp
     var box = await Hive.openBox('data');
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -271,7 +336,7 @@ class data_provider with ChangeNotifier{
   }
 
 
-  Future<void> selectImage() async {
+  Future<void> selectImage() async {//for gemeni
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source, imageQuality: 50);
     if (pickedFile != null) {
@@ -351,8 +416,8 @@ class data_provider with ChangeNotifier{
       );
     });
   }
-
 }
+
 
 
 
