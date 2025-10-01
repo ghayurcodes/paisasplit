@@ -45,8 +45,9 @@ Minimalist design • Offline ready • AI-powered
 ## 📱 UI Previews  
 
 <div align="center">
+<img width="351" height="694" alt="image" src="https://github.com/user-attachments/assets/29546feb-0bb8-4e42-bae2-b9c0d89ee3cd" />
 
-<img src="assets/ui-home.png" alt="Home Screen" width="200" style="margin:10px;"/>
+<img src="https://github.com/user-attachments/assets/29546feb-0bb8-4e42-bae2-b9c0d89ee3cd" alt="Home Screen" width="200" style="margin:10px;"/>
 <img src="assets/ui-user.png" alt="User Page" width="200" style="margin:10px;"/>
 <img src="assets/ui-gemini.png" alt="Gemini Page" width="200" style="margin:10px;"/>
 
