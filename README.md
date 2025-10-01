@@ -5,8 +5,6 @@
 **A cross-platform Flutter application to simplify managing shared expenses.**  
 Minimalist design • Offline ready • AI-powered  
 
-<img src="assets/banner.png" alt="Money Mate Banner" width="800"/>
-
 ---
 
 </div>
@@ -45,12 +43,9 @@ Minimalist design • Offline ready • AI-powered
 ## 📱 UI Previews  
 
 <div align="center">
-<img width="351" height="694" alt="image" src="https://github.com/user-attachments/assets/29546feb-0bb8-4e42-bae2-b9c0d89ee3cd" />
-
-<img src="https://github.com/user-attachments/assets/29546feb-0bb8-4e42-bae2-b9c0d89ee3cd" alt="Home Screen" width="200" style="margin:10px;"/>
-<img src="assets/ui-user.png" alt="User Page" width="200" style="margin:10px;"/>
-<img src="assets/ui-gemini.png" alt="Gemini Page" width="200" style="margin:10px;"/>
-
+  <img width="293" height="696" alt="image" src="https://github.com/user-attachments/assets/3615615a-e119-433b-8e11-f12e4760a598" />
+  <img width="351" height="694" alt="image" src="https://github.com/user-attachments/assets/29546feb-0bb8-4e42-bae2-b9c0d89ee3cd" />
+  <img width="312" height="694" alt="image" src="https://github.com/user-attachments/assets/06be5124-a456-4622-a083-0c14b5527906" />
 </div>
 
 ---
@@ -71,14 +66,7 @@ Minimalist design • Offline ready • AI-powered
 ## ⚡ Getting Started  
 
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/money-mate.git
-
-# Navigate to project directory
 cd money-mate
-
-# Install dependencies
 flutter pub get
-
-# Run the app
 flutter run
